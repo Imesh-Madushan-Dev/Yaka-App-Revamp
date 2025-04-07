@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
-import 'package:yaka_app/screens/auth/login_screen.dart';
-import 'package:yaka_app/screens/main/post_ad_page.dart';
-import 'package:yaka_app/screens/main/my_cart_Page.dart';
+
+import '../../models/product_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +12,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  int _currentIndex = 2; // Set default to Home
   late TabController _tabController;
   final List<String> _categories = [
     "All",
@@ -21,6 +19,100 @@ class _HomePageState extends State<HomePage>
     "Property",
     "Electronics",
     "Animals"
+  ];
+
+  // Define category data
+  final List<Map<String, String>> categoryData = [
+    {"title": "Vehicles", "imagePath": "assets/images/Vehicles.png"},
+    {"title": "Property", "imagePath": "assets/images/Property.png"},
+    {"title": "Electronics", "imagePath": "assets/images/Electronics.png"},
+    {"title": "Animals", "imagePath": "assets/images/Animals.png"},
+    {
+      "title": "Furniture",
+      "imagePath": "assets/images/Animals.png"
+    }, // Replace with correct image
+  ];
+
+  // Define featured products data
+  final List<Product> featuredProducts = [
+    Product(
+        title: 'CH-R',
+        price: '\$620',
+        imagePath: 'assets/images/product3.jpg',
+        rating: 4.5),
+    Product(
+        title: 'House for Sale',
+        price: '\$500',
+        imagePath: 'assets/images/product1.jpg',
+        rating: 4.2),
+    Product(
+        title: 'Rottweiler Puppies',
+        price: '\$170',
+        imagePath: 'assets/images/product2.jpg',
+        rating: 4.8),
+    Product(
+        title: 'MacBook Air 2020',
+        price: '\$300',
+        imagePath: 'assets/images/product4.jpg',
+        rating: 4.7),
+  ];
+
+  // Define trending products data
+  final List<Map<String, String>> trendingProducts = [
+    {
+      'title': 'Toyota CH-R',
+      'price': '\$620',
+      'imagePath': 'assets/images/product3.jpg',
+      'category': 'Vehicles'
+    },
+    {
+      'title': 'Luxury House',
+      'price': '\$500',
+      'imagePath': 'assets/images/product1.jpg',
+      'category': 'Property'
+    },
+    {
+      'title': 'Rottweiler Puppies',
+      'price': '\$170',
+      'imagePath': 'assets/images/product2.jpg',
+      'category': 'Animals'
+    },
+    {
+      'title': 'MacBook Air 2020',
+      'price': '\$300',
+      'imagePath': 'assets/images/product4.jpg',
+      'category': 'Electronics'
+    },
+  ];
+
+  // Define search history items
+  final List<String> searchHistory = [
+    "Toyota Corolla",
+    "House for rent",
+    "Smartphone",
+    "German Shepherd puppies",
+  ];
+
+  // Define notifications data
+  final List<Map<String, dynamic>> notifications = [
+    {
+      'title': 'New offer available',
+      'message': '50% off on selected electronics items',
+      'time': '10 min ago',
+      'isRead': false,
+    },
+    {
+      'title': 'Order confirmed',
+      'message': 'Your order #1234 has been confirmed',
+      'time': '1 hour ago',
+      'isRead': false,
+    },
+    {
+      'title': 'Payment successful',
+      'message': 'Your payment for order #1234 was successful',
+      'time': '2 hours ago',
+      'isRead': true,
+    },
   ];
 
   @override
@@ -33,12 +125,6 @@ class _HomePageState extends State<HomePage>
   void dispose() {
     _tabController.dispose();
     super.dispose();
-  }
-
-  void _onNavTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 
   @override
@@ -133,22 +219,6 @@ class _HomePageState extends State<HomePage>
               SizedBox(height: 8),
               _buildCategoriesSection(),
 
-              // Tab Bar for filtering products
-              Container(
-                margin: EdgeInsets.only(top: 16),
-                child: TabBar(
-                  controller: _tabController,
-                  isScrollable: true,
-                  labelColor: AppColors.primaryColor,
-                  unselectedLabelColor: AppColors.secondaryTextColor,
-                  indicatorColor: AppColors.primaryColor,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  tabs: _categories
-                      .map((category) => Tab(text: category))
-                      .toList(),
-                ),
-              ),
-
               // Featured Products Section
               Padding(
                 padding:
@@ -218,19 +288,6 @@ class _HomePageState extends State<HomePage>
           ),
         ),
       ),
-      floatingActionButton: _currentIndex == 2
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PostAdPage()),
-                );
-              },
-              backgroundColor: AppColors.primaryColor,
-              child: Icon(Icons.add, color: Colors.white),
-              tooltip: "Post a new ad",
-            )
-          : null,
     );
   }
 
@@ -307,17 +364,14 @@ class _HomePageState extends State<HomePage>
   Widget _buildCategoriesSection() {
     return Container(
       height: 120,
-      child: ListView(
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          _buildCategoryCard("Vehicles", "assets/images/Vehicles.png"),
-          _buildCategoryCard("Property", "assets/images/Property.png"),
-          _buildCategoryCard("Electronics", "assets/images/Electronics.png"),
-          _buildCategoryCard("Animals", "assets/images/Animals.png"),
-          _buildCategoryCard("Furniture",
-              "assets/images/Animals.png"), // Replace with correct image
-        ],
+        itemCount: categoryData.length,
+        itemBuilder: (context, index) {
+          return _buildCategoryCard(
+              categoryData[index]["title"]!, categoryData[index]["imagePath"]!);
+        },
       ),
     );
   }
@@ -358,41 +412,43 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildProductsGrid() {
-    return GridView.count(
+    return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        mainAxisExtent: 220, // Fixed height to prevent overflow
+      ),
       padding: EdgeInsets.all(16),
-      mainAxisSpacing: 16,
-      crossAxisSpacing: 16,
-      children: [
-        _buildProductCard('CH-R', '\$620', 'assets/images/product3.jpg', 4.5),
-        _buildProductCard(
-            'House for Sale', '\$500', 'assets/images/product 1.jpg', 4.2),
-        _buildProductCard(
-            'Rottweiler Puppies', '\$170', 'assets/images/product2.jpg', 4.8),
-        _buildProductCard(
-            'MacBook Air 2020', '\$300', 'assets/images/product4.jpg', 4.7),
-      ],
+      itemCount: featuredProducts.length,
+      itemBuilder: (context, index) {
+        return _buildProductCard(
+          featuredProducts[index].title,
+          featuredProducts[index].price,
+          featuredProducts[index].imagePath,
+          featuredProducts[index].rating,
+        );
+      },
     );
   }
 
   Widget _buildTrendingProducts() {
-    return Container(
-      height: 200,
-      child: ListView(
+    return SizedBox(
+      height: 250,
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          _buildTrendingCard(
-              'Toyota CH-R', '\$620', 'assets/images/product3.jpg', 'Vehicles'),
-          _buildTrendingCard('Luxury House', '\$500',
-              'assets/images/product 1.jpg', 'Property'),
-          _buildTrendingCard('Rottweiler Puppies', '\$170',
-              'assets/images/product2.jpg', 'Animals'),
-          _buildTrendingCard('MacBook Air 2020', '\$300',
-              'assets/images/product4.jpg', 'Electronics'),
-        ],
+        itemCount: trendingProducts.length,
+        itemBuilder: (context, index) {
+          return _buildTrendingCard(
+            trendingProducts[index]['title']!,
+            trendingProducts[index]['price']!,
+            trendingProducts[index]['imagePath']!,
+            trendingProducts[index]['category']!,
+          );
+        },
       ),
     );
   }
@@ -529,43 +585,45 @@ class _HomePageState extends State<HomePage>
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.amber, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      rating.toString(),
-                      style: TextStyle(
-                        color: AppColors.onSurfaceColor,
-                        fontSize: 12,
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.amber, size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        rating.toString(),
+                        style: TextStyle(
+                          color: AppColors.onSurfaceColor,
+                          fontSize: 12,
+                        ),
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: AppColors.onSurfaceColor,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-                SizedBox(height: 4),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: AppColors.onSurfaceColor,
-                    fontWeight: FontWeight.bold,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 4),
-                Text(
-                  price,
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
+                  SizedBox(height: 4),
+                  Text(
+                    price,
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -628,14 +686,12 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             Expanded(
-              child: ListView(
+              child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                children: [
-                  _buildSearchHistoryItem("Toyota Corolla"),
-                  _buildSearchHistoryItem("House for rent"),
-                  _buildSearchHistoryItem("Smartphone"),
-                  _buildSearchHistoryItem("German Shepherd puppies"),
-                ],
+                itemCount: searchHistory.length,
+                itemBuilder: (context, index) {
+                  return _buildSearchHistoryItem(searchHistory[index]);
+                },
               ),
             ),
           ],
@@ -700,28 +756,17 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             Expanded(
-              child: ListView(
+              child: ListView.builder(
                 padding: EdgeInsets.zero,
-                children: [
-                  _buildNotificationItem(
-                    title: "New offer available",
-                    message: "50% off on selected electronics items",
-                    time: "10 min ago",
-                    isRead: false,
-                  ),
-                  _buildNotificationItem(
-                    title: "Order confirmed",
-                    message: "Your order #1234 has been confirmed",
-                    time: "1 hour ago",
-                    isRead: false,
-                  ),
-                  _buildNotificationItem(
-                    title: "Payment successful",
-                    message: "Your payment for order #1234 was successful",
-                    time: "2 hours ago",
-                    isRead: true,
-                  ),
-                ],
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  return _buildNotificationItem(
+                    title: notifications[index]['title'],
+                    message: notifications[index]['message'],
+                    time: notifications[index]['time'],
+                    isRead: notifications[index]['isRead'],
+                  );
+                },
               ),
             ),
           ],
@@ -795,17 +840,4 @@ class _HomePageState extends State<HomePage>
       ),
     );
   }
-}
-
-class Product {
-  final String title;
-  final String price;
-  final String imagePath;
-  final double rating;
-
-  Product(
-      {required this.title,
-      required this.price,
-      required this.imagePath,
-      this.rating = 0.0});
 }

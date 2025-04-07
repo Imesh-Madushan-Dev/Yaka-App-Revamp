@@ -68,6 +68,7 @@ class _WishListPageState extends State<WishListPage> {
     );
   }
 
+  // Update the build method
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,25 +86,15 @@ class _WishListPageState extends State<WishListPage> {
         actions: [
           if (_itemTitles.isNotEmpty)
             IconButton(
-              icon: Icon(Icons.shopping_cart_checkout,
-                  color: AppColors.onSurfaceColor),
+              icon: Icon(Icons.shopping_cart_checkout, color: AppColors.onSurfaceColor),
               onPressed: () {
                 _moveAllToCart();
               },
               tooltip: 'Add all to cart',
             ),
-          if (_itemTitles.isNotEmpty)
-            IconButton(
-              icon: Icon(Icons.delete_outline, color: AppColors.onSurfaceColor),
-              onPressed: () {
-                _showClearWishlistDialog();
-              },
-            ),
         ],
       ),
-      body: _itemTitles.isEmpty
-          ? _emptyWishlistView() // Empty wishlist message
-          : _wishlistItemView(), // Wishlist with items
+      body: _itemTitles.isEmpty ? _emptyWishlistView() : _wishlistItemView(),
     );
   }
 
