@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/screens/main/home_page.dart';
 import 'package:yaka_app/screens/main/profile_page.dart';
 import 'package:yaka_app/screens/main/post_ad_page.dart';
-import 'package:yaka_app/screens/main/my_cart_Page.dart';
-import 'package:yaka_app/screens/main/wishlist_page.dart';
+import 'package:yaka_app/screens/main/chat_page.dart';
+import 'package:yaka_app/screens/main/search_page.dart';
 
-class CustomBottomNavBar extends StatefulWidget {
-  const CustomBottomNavBar({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  CustomBottomNavBarState createState() => CustomBottomNavBarState();
+  MainPageState createState() => MainPageState();
 }
 
-class CustomBottomNavBarState extends State<CustomBottomNavBar> {
+class MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
     const HomePage(),
-    const WishListPage(),
+    const SearchPage(),
     const PostAdPage(),
-    MyCartPage(),
+    ChatPage(),
     const ProfilePage(),
   ];
 
@@ -62,9 +63,9 @@ class CustomBottomNavBarState extends State<CustomBottomNavBar> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              activeIcon: Icon(Icons.favorite),
-              label: 'Wishlist',
+              icon: Icon(Icons.search_outlined),
+              activeIcon: Icon(Icons.search),
+              label: 'Search',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.add_circle, color: AppColors.primaryColor),
@@ -72,9 +73,15 @@ class CustomBottomNavBarState extends State<CustomBottomNavBar> {
               label: 'Post Ad',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined),
-              activeIcon: Icon(Icons.shopping_cart), 
-              label: 'Cart',
+              icon: Icon(
+                Bootstrap.chat,
+                size: 18,
+              ),
+              activeIcon: Icon(
+                Bootstrap.chat_fill,
+                size: 18,
+              ),
+              label: 'chat',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),

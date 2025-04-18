@@ -12,128 +12,134 @@ class _PostAdPageState extends State<PostAdPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        backgroundColor: AppColors.surfaceColor,
-        elevation: 0,
+        backgroundColor: AppColors.primaryColor,
         title: Text(
-          "Post Ad",
+          "Post an ad",
           style: TextStyle(
-            color: AppColors.onSurfaceColor,
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
+            color: AppColors.backgroundColor,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.help_outline, color: AppColors.onSurfaceColor),
-            onPressed: () {
-              // Show help dialog
-              _showHelpDialog();
-            },
-          ),
-        ],
       ),
-      body: Container(
-        color: Colors.grey[100],
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Banner
-              Padding(
-                padding: const EdgeInsets.all(20),
+              // Header Section
+              Container(
+                padding: EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 8,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "What would you like to sell today?",
+                      'Choose a category to start posting your ad',
                       style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      "Choose a category to get started",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black.withOpacity(0.9),
+                        fontSize: 14,
+                        color: Colors.grey[600],
                       ),
                     ),
                   ],
                 ),
               ),
 
-              // Popular Categories
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  "Popular Categories",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.onSurfaceColor,
-                  ),
-                ),
-              ),
-
               // Categories Grid
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildCategoryButton('Cars', 'assets/images/car.png', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage2()),
-                      );
-                    }),
-                    _buildCategoryButton('Motorbikes', 'assets/images/bike.png',
-                        () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage2()),
-                      );
-                    }),
-                    _buildCategoryButton(
-                        'Mobile Phones', 'assets/images/phone.png', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage2()),
-                      );
-                    }),
-                    _buildCategoryButton('Property', 'assets/images/pro.png',
-                        () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage2()),
-                      );
-                    }),
-                    _buildCategoryButton(
-                        'Home & Garden', 'assets/images/home.png', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage2()),
-                      );
-                    }),
-                    _buildCategoryButton('Jobs', 'assets/images/job.png', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage2()),
-                      );
-                    }),
+                    Text(
+                      'Popular Categories',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    GridView.count(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      shrinkWrap: true,
+                      childAspectRatio: 0.85,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        _buildCategoryCard(
+                          'Vehicles',
+                          'assets/images/car.png',
+                          Icons.directions_car,
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LocationPage2()),
+                          ),
+                        ),
+                        _buildCategoryCard(
+                          'Property',
+                          'assets/images/pro.png',
+                          Icons.home,
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LocationPage2()),
+                          ),
+                        ),
+                        _buildCategoryCard(
+                          'Electronics',
+                          'assets/images/phone.png',
+                          Icons.phone_android,
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LocationPage2()),
+                          ),
+                        ),
+                        _buildCategoryCard(
+                          'Jobs',
+                          'assets/images/job.png',
+                          Icons.work,
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LocationPage2()),
+                          ),
+                        ),
+                        _buildCategoryCard(
+                          'Services',
+                          'assets/images/service.png',
+                          Icons.handyman,
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LocationPage2()),
+                          ),
+                        ),
+                        _buildCategoryCard(
+                          'Fashion',
+                          'assets/images/fashion.png',
+                          Icons.shopping_bag,
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LocationPage2()),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -142,111 +148,34 @@ class _PostAdPageState extends State<PostAdPage> {
 
               // Other Options
               Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  "Other Options",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.onSurfaceColor,
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    _buildCustomButton(
-                      'Look for something',
-                      Icons.search,
-                      () {
-                        // Navigate to search
-                      },
-                    ),
-                    SizedBox(height: 12),
-                    _buildCustomButton(
-                      'Sell in other categories',
-                      Icons.category,
-                      () {
-                        // Navigate to all categories
-                      },
-                    ),
-                  ],
-                ),
-              ),
-
-              // Info Section
-              Container(
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.blue[200]!),
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Icon(Icons.info_outline, color: Colors.blue),
-                        SizedBox(width: 8),
-                        Text(
-                          "Posting Tips",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue[800],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
                     Text(
-                      "• Add clear photos to get more attention\n• Be accurate with your item description\n• Set a competitive price",
+                      'Other Options',
                       style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.blue[800],
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800],
                       ),
+                    ),
+                    SizedBox(height: 16),
+                    _buildOptionButton(
+                      'Sell in other Categories',
+                      Icons.grid_view,
+                      () {},
+                    ),
+                    SizedBox(height: 12),
+                    _buildOptionButton(
+                      'Look for Something',
+                      Icons.handyman,
+                      () {},
                     ),
                   ],
                 ),
               ),
-
-              // Footer
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton.icon(
-                      onPressed: () {
-                        // Show posting allowance
-                      },
-                      icon: Icon(Icons.info_outline, size: 18),
-                      label: Text('Posting Allowance'),
-                      style: TextButton.styleFrom(
-                        foregroundColor:
-                            AppColors.onSurfaceColor.withOpacity(0.7),
-                      ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {
-                        // Show posting rules
-                      },
-                      icon: Icon(Icons.rule, size: 18),
-                      label: Text('Posting Rules'),
-                      style: TextButton.styleFrom(
-                        foregroundColor:
-                            AppColors.onSurfaceColor.withOpacity(0.7),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 20),
+              SizedBox(height: 24),
             ],
           ),
         ),
@@ -254,8 +183,12 @@ class _PostAdPageState extends State<PostAdPage> {
     );
   }
 
-  Widget _buildCategoryButton(
-      String title, String imagePath, VoidCallback onTap) {
+  Widget _buildCategoryCard(
+    String title,
+    String imagePath,
+    IconData icon,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -266,7 +199,7 @@ class _PostAdPageState extends State<PostAdPage> {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
-              blurRadius: 5,
+              blurRadius: 8,
               offset: Offset(0, 2),
             ),
           ],
@@ -275,25 +208,24 @@ class _PostAdPageState extends State<PostAdPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppColors.primaryColor.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
-              child: Image.asset(
-                imagePath,
-                height: 32,
-                width: 32,
-                fit: BoxFit.contain,
+              child: Icon(
+                icon,
+                size: 32,
+                color: AppColors.primaryColor,
               ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 12),
             Text(
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: AppColors.onSurfaceColor,
               ),
             ),
@@ -303,34 +235,33 @@ class _PostAdPageState extends State<PostAdPage> {
     );
   }
 
-  Widget _buildCustomButton(String text, IconData icon, VoidCallback onTap) {
+  Widget _buildOptionButton(
+    String title,
+    IconData icon,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
-              blurRadius: 5,
+              blurRadius: 8,
               offset: Offset(0, 2),
             ),
           ],
         ),
         child: Row(
           children: [
-            Icon(
-              icon,
-              color: AppColors.primaryColor,
-              size: 24,
-            ),
-            SizedBox(width: 16),
+            SizedBox(width: 6),
             Expanded(
               child: Text(
-                text,
+                title,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -340,43 +271,10 @@ class _PostAdPageState extends State<PostAdPage> {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Colors.grey,
               size: 16,
+              color: Colors.grey[400],
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  void _showHelpDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Posting Help'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Tips for successful posting:'),
-            SizedBox(height: 8),
-            Text('• Choose the right category'),
-            Text('• Add clear, high-quality photos'),
-            Text('• Write detailed descriptions'),
-            Text('• Set a competitive price'),
-            Text('• Respond quickly to inquiries'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Got it'),
-          ),
-        ],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
         ),
       ),
     );

@@ -12,7 +12,7 @@ project(runner LANGUAGES CXX)
 set(BINARY_NAME "yaka_lk")
 # The unique GTK application identifier for this application. See:
 # https://wiki.gnome.org/HowDoI/ChooseApplicationID
-set(APPLICATION_ID "com.example.yaka_lk")
+set(APPLICATION_ID "com.yaka_lk")
 =======
 set(BINARY_NAME "yaka")
 # The unique GTK application identifier for this application. See:

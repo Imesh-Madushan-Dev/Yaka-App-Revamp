@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yaka_app/screens/main/home_page.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/screens/auth/login_screen.dart';
 import 'package:yaka_app/screens/screens/MyAds.dart';
-import 'package:yaka_app/screens/main/post_ad_page.dart';
-import 'package:yaka_app/screens/screens/Settings.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -13,364 +10,238 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
-        backgroundColor: AppColors.surfaceColor,
-        elevation: 0,
+        leading: SizedBox(),
         title: Text(
-          "Profile",
+          textAlign: TextAlign.left,
+          "Account",
           style: TextStyle(
-            color: AppColors.onSurfaceColor,
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
+            color: AppColors.backgroundColor,
           ),
         ),
         actions: [
           IconButton(
-            icon:
-                Icon(Icons.settings_outlined, color: AppColors.onSurfaceColor),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettinsPage()),
-              );
-            },
+            onPressed: () {},
+            icon: Icon(
+              Icons.settings_outlined,
+              color: AppColors.backgroundColor,
+            ),
           ),
         ],
+        backgroundColor: AppColors.primaryColor,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-        ),
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 20),
-          children: [
-            // Profile Card
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundColor:
-                                AppColors.primaryColor.withOpacity(0.1),
-                            backgroundImage:
-                                AssetImage('assets/images/avt.png'),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 2),
-                            ),
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Thayagi Perera',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: AppColors.onSurfaceColor,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'thayagi@example.com',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.verified,
-                            color: Colors.green,
-                            size: 16,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'Verified User',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.green,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      OutlinedButton(
-                        onPressed: () {
-                          // Edit profile action
-                        },
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.primaryColor,
-                          side: BorderSide(color: AppColors.primaryColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 12),
-                        ),
-                        child: Text('Edit Profile'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 16),
-
-            // Stats Card
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildStatColumn('5', 'Active Ads'),
-                      _buildVerticalDivider(),
-                      _buildStatColumn('12', 'Sold Items'),
-                      _buildVerticalDivider(),
-                      _buildStatColumn('4.8', 'Rating'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 24),
-
-            // Account Section
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Account',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.onSurfaceColor,
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              elevation: 2,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  _buildMenuTile(
-                    context,
-                    Icons.list_alt_rounded,
-                    'My Ads',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyAds()),
-                      );
-                    },
-                  ),
-                  Divider(height: 1, indent: 70),
-                  _buildMenuTile(
-                    context,
-                    Icons.favorite_border,
-                    'Favorites',
-                    trailing: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        '3',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Divider(height: 1, indent: 70),
-                  _buildMenuTile(
-                    context,
-                    Icons.history,
-                    'Recently Viewed',
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 24),
-
-            // Settings Section
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Settings',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.onSurfaceColor,
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              elevation: 2,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  _buildMenuTile(
-                    context,
-                    Icons.settings,
-                    'App Settings',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SettinsPage()),
-                      );
-                    },
-                  ),
-                  Divider(height: 1, indent: 70),
-                  _buildMenuTile(
-                    context,
-                    Icons.help_outline,
-                    'Help & Support',
-                  ),
-                  Divider(height: 1, indent: 70),
-                  _buildMenuTile(
-                    context,
-                    Icons.info_outline,
-                    'About YAKA.LK',
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 24),
-
-            // Logout Button
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  _showLogoutDialog(context);
-                },
-                icon: Icon(Icons.logout),
-                label: Text('Log Out'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red[400],
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 40),
-          ],
-        ),
+      body: Expanded(
+        child: _buildMenuItems(context),
       ),
     );
   }
 
-  Widget _buildStatColumn(String value, String label) {
-    return Column(
+  Widget _buildMenuItems(BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.only(top: 16),
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryColor,
-          ),
+        _buildMenuSection(
+          "Account",
+          [
+            _buildMenuItem(
+              icon: Icons.person,
+              title: "Imesh Madushan",
+              subtitle: "view Profile",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.list_alt_outlined,
+              title: "My Ads",
+              subtitle: "4 active listings",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyAds()),
+              ),
+            ),
+            _buildMenuItem(
+              icon: Icons.card_membership_outlined,
+              title: "My membership",
+              subtitle: "Basic account",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.favorite_border,
+              title: "Favorites",
+              subtitle: "12 saved items",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.bookmark_border,
+              title: "Saved searches",
+              subtitle: "3 saved searches",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.phone_outlined,
+              title: "Phone Numbers",
+              subtitle: "Manage your contacts",
+              onTap: () {},
+            ),
+          ],
         ),
-        SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
+        SizedBox(height: 16),
+        _buildMenuSection(
+          "Settings & Help",
+          [
+            _buildMenuItem(
+              icon: Icons.person_outline,
+              title: "My Profile",
+              subtitle: "Personal information",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.shield_outlined,
+              title: "Stay safe",
+              subtitle: "Safety tips",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.help_outline,
+              title: "FAQ",
+              subtitle: "Frequently asked questions",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.flash_on_outlined,
+              title: "How to sell fast?",
+              subtitle: "Tips for successful selling",
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.more_horiz,
+              title: "More",
+              subtitle: "Additional options",
+              onTap: () {},
+            ),
+          ],
+        ),
+        SizedBox(height: 16),
+        _buildMenuSection(
+          "",
+          [
+            _buildMenuItem(
+              icon: Icons.logout,
+              title: "Log out",
+              iconColor: Colors.redAccent,
+              titleColor: Colors.redAccent,
+              showChevron: false,
+              onTap: () => _showLogoutDialog(context),
+            ),
+          ],
+        ),
+        SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildMenuSection(String title, List<Widget> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.only(left: 20, bottom: 8),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[600],
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.04),
+                blurRadius: 8,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            children: items,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildVerticalDivider() {
-    return Container(
-      height: 40,
-      width: 1,
-      color: Colors.grey[300],
-    );
-  }
-
-  Widget _buildMenuTile(BuildContext context, IconData icon, String title,
-      {VoidCallback? onTap, Widget? trailing}) {
-    return ListTile(
-      leading: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: AppColors.primaryColor.withOpacity(0.1),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: AppColors.primaryColor,
-          size: 24,
-        ),
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: AppColors.onSurfaceColor,
-        ),
-      ),
-      trailing: trailing ??
-          Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+  Widget _buildMenuItem({
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    bool showChevron = true,
+    Color? iconColor,
+    Color? titleColor,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: (iconColor ?? AppColors.primaryColor).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                color: iconColor ?? AppColors.primaryColor,
+                size: 22,
+              ),
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: titleColor ?? Color(0xFF2D3142),
+                    ),
+                  ),
+                  if (subtitle != null) SizedBox(height: 4),
+                  if (subtitle != null)
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            if (showChevron)
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.grey[400],
+                size: 16,
+              ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -379,32 +250,53 @@ class ProfilePage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Log Out'),
-          content: Text('Are you sure you want to log out?'),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+          title: Text(
+            'Log out',
+            style: TextStyle(
+              color: Color(0xFF2D3142),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Are you sure you want to log out?',
+            style: TextStyle(color: Colors.grey[600]),
+          ),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
-            TextButton(
+            ElevatedButton(
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.remove('user_logged_in');
-
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.red,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                elevation: 0,
               ),
-              child: Text('Log Out'),
+              child: Text(
+                'Log Out',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
           ],
         );

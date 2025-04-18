@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:yaka_app/screens/main/home_page.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/screens/screens/AddCardDetails.dart';
-import 'package:yaka_app/screens/main/my_cart_Page.dart';
+import 'package:yaka_app/screens/main/chat_page.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -55,7 +55,7 @@ class _PaymentPageState extends State<PaymentPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyCartPage()),
+              MaterialPageRoute(builder: (context) => ChatPage()),
             );
           },
         ),

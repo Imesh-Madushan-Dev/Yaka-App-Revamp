@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:yaka_app/screens/main/home_page.dart';
 import 'package:yaka_app/screens/screens/LocationPage.dart';
-import 'package:yaka_app/screens/main/my_cart_Page.dart';
+import 'package:yaka_app/screens/main/chat_page.dart';
 import 'package:yaka_app/screens/screens/payment_page.dart';
 import 'package:yaka_app/screens/postAd_sub_pages/price_page.dart';
 import 'constants/app_colors.dart';
 import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
-import 'screens/main/bottom_nav.dart';
+import 'screens/main/main_page.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/splash/splash_screen.dart';
 
@@ -34,14 +34,14 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const CustomBottomNavBar(),
+        '/': (context) => const MainPage(),
         '/splash': (context) => const SplashScreen(),
         '/onboarding': (context) => const OnboardingScreen(),
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         "/Location": (context) => LocationPage(),
-        "/cart": (context) => MyCartPage(),
+        "/cart": (context) => ChatPage(),
         "/payment": (context) => PaymentPage(),
         // "/sell": (context) => PricePage(),
       },

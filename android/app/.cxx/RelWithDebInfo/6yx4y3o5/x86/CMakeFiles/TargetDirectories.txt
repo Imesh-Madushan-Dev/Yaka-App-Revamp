@@ -1,0 +1,2 @@
+E:/Development/E Service/YAKA APP/yaka_app/android/app/.cxx/RelWithDebInfo/6yx4y3o5/x86/CMakeFiles/edit_cache.dir
+E:/Development/E Service/YAKA APP/yaka_app/android/app/.cxx/RelWithDebInfo/6yx4y3o5/x86/CMakeFiles/rebuild_cache.dir

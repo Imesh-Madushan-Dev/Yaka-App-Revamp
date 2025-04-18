@@ -1,4 +1,4 @@
-package com.example.yaka_lk
+package com.yaka_lk
 
 import io.flutter.embedding.android.FlutterActivity
 

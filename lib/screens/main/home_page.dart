@@ -1,292 +1,159 @@
 import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
-import '../../models/product_model.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
+class HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  bool _showElevation = false;
+
   final List<String> _categories = [
     "All",
     "Vehicles",
     "Property",
     "Electronics",
+    "Fashion",
+    "Furniture",
     "Animals"
-  ];
-
-  // Define category data
-  final List<Map<String, String>> categoryData = [
-    {"title": "Vehicles", "imagePath": "assets/images/Vehicles.png"},
-    {"title": "Property", "imagePath": "assets/images/Property.png"},
-    {"title": "Electronics", "imagePath": "assets/images/Electronics.png"},
-    {"title": "Animals", "imagePath": "assets/images/Animals.png"},
-    {
-      "title": "Furniture",
-      "imagePath": "assets/images/Animals.png"
-    }, // Replace with correct image
-  ];
-
-  // Define featured products data
-  final List<Product> featuredProducts = [
-    Product(
-        title: 'CH-R',
-        price: '\$620',
-        imagePath: 'assets/images/product3.jpg',
-        rating: 4.5),
-    Product(
-        title: 'House for Sale',
-        price: '\$500',
-        imagePath: 'assets/images/product1.jpg',
-        rating: 4.2),
-    Product(
-        title: 'Rottweiler Puppies',
-        price: '\$170',
-        imagePath: 'assets/images/product2.jpg',
-        rating: 4.8),
-    Product(
-        title: 'MacBook Air 2020',
-        price: '\$300',
-        imagePath: 'assets/images/product4.jpg',
-        rating: 4.7),
-  ];
-
-  // Define trending products data
-  final List<Map<String, String>> trendingProducts = [
-    {
-      'title': 'Toyota CH-R',
-      'price': '\$620',
-      'imagePath': 'assets/images/product3.jpg',
-      'category': 'Vehicles'
-    },
-    {
-      'title': 'Luxury House',
-      'price': '\$500',
-      'imagePath': 'assets/images/product1.jpg',
-      'category': 'Property'
-    },
-    {
-      'title': 'Rottweiler Puppies',
-      'price': '\$170',
-      'imagePath': 'assets/images/product2.jpg',
-      'category': 'Animals'
-    },
-    {
-      'title': 'MacBook Air 2020',
-      'price': '\$300',
-      'imagePath': 'assets/images/product4.jpg',
-      'category': 'Electronics'
-    },
-  ];
-
-  // Define search history items
-  final List<String> searchHistory = [
-    "Toyota Corolla",
-    "House for rent",
-    "Smartphone",
-    "German Shepherd puppies",
-  ];
-
-  // Define notifications data
-  final List<Map<String, dynamic>> notifications = [
-    {
-      'title': 'New offer available',
-      'message': '50% off on selected electronics items',
-      'time': '10 min ago',
-      'isRead': false,
-    },
-    {
-      'title': 'Order confirmed',
-      'message': 'Your order #1234 has been confirmed',
-      'time': '1 hour ago',
-      'isRead': false,
-    },
-    {
-      'title': 'Payment successful',
-      'message': 'Your payment for order #1234 was successful',
-      'time': '2 hours ago',
-      'isRead': true,
-    },
   ];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: _categories.length, vsync: this);
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.offset > 0 && !_showElevation) {
+      setState(() => _showElevation = true);
+    } else if (_scrollController.offset <= 0 && _showElevation) {
+      setState(() => _showElevation = false);
+    }
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.surfaceColor,
-        elevation: 0,
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "YAKA",
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+      backgroundColor: Colors.grey[50],
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            elevation: _showElevation ? 4 : 0,
+            backgroundColor: AppColors.primaryColor,
+            title: Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "YAKA",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ".LK",
+                        style: TextStyle(
+                          color: AppColors.backgroundColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: ".LK",
-                style: TextStyle(
-                  color: AppColors.onSurfaceColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              ],
+            ),
+            actions: [
+              IconButton(
+                icon: Badge(
+                  label: Text("3"),
+                  child: Icon(Icons.notifications_none,
+                      color: AppColors.backgroundColor),
                 ),
+                onPressed: () => _showNotificationsPanel(),
               ),
             ],
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Badge(
-              label: Text("3"),
-              child: Icon(Icons.notifications_none,
-                  color: AppColors.onSurfaceColor),
-            ),
-            onPressed: () {
-              _showNotificationsPanel();
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.search, color: AppColors.onSurfaceColor),
-            onPressed: () {
-              _showSearchModal(context);
-            },
           ),
         ],
-      ),
-      body: RefreshIndicator(
-        color: AppColors.primaryColor,
-        onRefresh: () async {
-          // Implement refresh functionality
-          await Future.delayed(Duration(seconds: 1));
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Promotional Banner
-              _buildPromotionalBanner(),
+        body: RefreshIndicator(
+          color: AppColors.primaryColor,
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 1));
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // // Promotional Banner
+                // _buildPromotionalBanner(),
 
-              // Categories Section
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Categories",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.onSurfaceColor,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // View all categories
-                      },
-                      child: Text(
-                        "View All",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 8),
-              _buildCategoriesSection(),
+                // Categories Section
+                _buildCategoryHeader(),
+                _buildCategoriesSection(),
 
-              // Featured Products Section
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Featured Products",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.onSurfaceColor,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // View all products
-                      },
-                      child: Text(
-                        "View All",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              _buildProductsGrid(),
+                // Featured Products Section
+                _buildSectionHeader("Featured Products", onViewAll: () {}),
+                _buildProductsGrid(), _buildProductsGrid(),
+                _buildProductsGrid(), _buildProductsGrid(),
 
-              // Trending Section
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Trending Now",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.onSurfaceColor,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // View all trending items
-                      },
-                      child: Text(
-                        "View All",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              _buildTrendingProducts(),
-
-              SizedBox(height: 24),
-            ],
+                SizedBox(height: 24),
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, {VoidCallback? onViewAll}) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16, 24, 16, 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.onSurfaceColor,
+            ),
+          ),
+          if (onViewAll != null)
+            TextButton(
+              onPressed: onViewAll,
+              child: Text(
+                "View All",
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -362,23 +229,29 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildCategoriesSection() {
-    return Container(
-      height: 120,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        itemCount: categoryData.length,
-        itemBuilder: (context, index) {
-          return _buildCategoryCard(
-              categoryData[index]["title"]!, categoryData[index]["imagePath"]!);
-        },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: SizedBox(
+        height: 80,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          children: [
+            _buildCategoryCard("Vehicles", "assets/categories/Vehicles.png"),
+            _buildCategoryCard("Property", "assets/categories/Property.png"),
+            _buildCategoryCard(
+                "Electronics", "assets/categories/Electronics.png"),
+            _buildCategoryCard("Animals", "assets/categories/Animals.png"),
+            _buildCategoryCard("Furniture", "assets/categories/Furniture.png"),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildCategoryCard(String title, String imagePath) {
     return Container(
-      width: 100,
+      width: 80,
       margin: EdgeInsets.only(right: 16),
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
@@ -396,14 +269,45 @@ class _HomePageState extends State<HomePage>
         children: [
           Image.asset(
             imagePath,
-            height: 50,
+            height: 40,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
             title,
             style: TextStyle(
+                color: AppColors.onSurfaceColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryHeader() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Categories",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
               color: AppColors.onSurfaceColor,
-              fontWeight: FontWeight.w500,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              // View all categories
+            },
+            child: Text(
+              "View All",
+              style: TextStyle(
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -412,125 +316,23 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildProductsGrid() {
-    return GridView.builder(
+    return GridView.count(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        mainAxisExtent: 220, // Fixed height to prevent overflow
-      ),
+      crossAxisCount: 2,
       padding: EdgeInsets.all(16),
-      itemCount: featuredProducts.length,
-      itemBuilder: (context, index) {
-        return _buildProductCard(
-          featuredProducts[index].title,
-          featuredProducts[index].price,
-          featuredProducts[index].imagePath,
-          featuredProducts[index].rating,
-        );
-      },
-    );
-  }
-
-  Widget _buildTrendingProducts() {
-    return SizedBox(
-      height: 250,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        itemCount: trendingProducts.length,
-        itemBuilder: (context, index) {
-          return _buildTrendingCard(
-            trendingProducts[index]['title']!,
-            trendingProducts[index]['price']!,
-            trendingProducts[index]['imagePath']!,
-            trendingProducts[index]['category']!,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildTrendingCard(
-      String title, String price, String imagePath, String category) {
-    return Container(
-      width: 160,
-      margin: EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowColor,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                child: Image.asset(
-                  imagePath,
-                  height: 120,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    category,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: AppColors.onSurfaceColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 4),
-                Text(
-                  price,
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      childAspectRatio: 0.9,
+      children: [
+        _buildProductCard('CH-R', '\$620', 'assets/products/product3.jpg', 4.5),
+        _buildProductCard(
+            'House for Sale', '\$500', 'assets/products/product1.jpg', 4.2),
+        _buildProductCard(
+            'Rottweiler Puppies', '\$170', 'assets/products/product2.jpg', 4.8),
+        _buildProductCard(
+            'MacBook Air 2020', '\$300', 'assets/products/product4.jpg', 4.7),
+      ],
     );
   }
 
@@ -585,130 +387,47 @@ class _HomePageState extends State<HomePage>
               ),
             ],
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber, size: 16),
-                      SizedBox(width: 4),
-                      Text(
-                        rating.toString(),
-                        style: TextStyle(
-                          color: AppColors.onSurfaceColor,
-                          fontSize: 12,
-                        ),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.star, color: Colors.amber, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      rating.toString(),
+                      style: TextStyle(
+                        color: AppColors.onSurfaceColor,
+                        fontSize: 12,
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: AppColors.onSurfaceColor,
-                      fontWeight: FontWeight.bold,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  ],
+                ),
+                SizedBox(height: 4),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.onSurfaceColor,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    price,
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 4),
+                Text(
+                  price,
+                  style: TextStyle(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  void _showSearchModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.9,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextField(
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: 'Search for products...',
-                  prefixIcon: Icon(Icons.search, color: AppColors.primaryColor),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 15),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Text(
-                    "Recent Searches",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Spacer(),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Clear All",
-                      style: TextStyle(color: AppColors.primaryColor),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: searchHistory.length,
-                itemBuilder: (context, index) {
-                  return _buildSearchHistoryItem(searchHistory[index]);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSearchHistoryItem(String query) {
-    return ListTile(
-      leading: Icon(Icons.history, color: Colors.grey),
-      title: Text(query),
-      trailing: Icon(Icons.north_west, size: 16, color: Colors.grey),
-      onTap: () {
-        // Search with this query
-        Navigator.pop(context);
-      },
     );
   }
 
@@ -756,17 +475,28 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             Expanded(
-              child: ListView.builder(
+              child: ListView(
                 padding: EdgeInsets.zero,
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return _buildNotificationItem(
-                    title: notifications[index]['title'],
-                    message: notifications[index]['message'],
-                    time: notifications[index]['time'],
-                    isRead: notifications[index]['isRead'],
-                  );
-                },
+                children: [
+                  _buildNotificationItem(
+                    title: "New offer available",
+                    message: "50% off on selected electronics items",
+                    time: "10 min ago",
+                    isRead: false,
+                  ),
+                  _buildNotificationItem(
+                    title: "Order confirmed",
+                    message: "Your order #1234 has been confirmed",
+                    time: "1 hour ago",
+                    isRead: false,
+                  ),
+                  _buildNotificationItem(
+                    title: "Payment successful",
+                    message: "Your payment for order #1234 was successful",
+                    time: "2 hours ago",
+                    isRead: true,
+                  ),
+                ],
               ),
             ),
           ],
