@@ -364,27 +364,6 @@ class HomePageState extends State<HomePage>
                   fit: BoxFit.cover,
                 ),
               ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  height: 32,
-                  width: 32,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    iconSize: 18,
-                    icon: Icon(Icons.favorite_border,
-                        color: AppColors.primaryColor),
-                    onPressed: () {
-                      // Add to wishlist
-                    },
-                  ),
-                ),
-              ),
             ],
           ),
           Padding(
