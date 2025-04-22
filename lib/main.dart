@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yaka_app/screens/main/home_page.dart';
-import 'package:yaka_app/screens/screens/LocationPage.dart';
-import 'package:yaka_app/screens/main/chat_page.dart';
-import 'package:yaka_app/screens/screens/payment_page.dart';
-import 'package:yaka_app/screens/postAd_sub_pages/price_page.dart';
+import 'package:yaka_app/screens/main/home_page/home_page.dart';
+import 'package:yaka_app/screens/main/chat_page/chat_page.dart';
 import 'constants/app_colors.dart';
 import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/login_screen.dart';
@@ -40,9 +37,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
-        "/Location": (context) => LocationPage(),
+
         "/cart": (context) => ChatPage(),
-        "/payment": (context) => PaymentPage(),
+
+        "/home": (context) => HomePage(),
         // "/sell": (context) => PricePage(),
       },
     );

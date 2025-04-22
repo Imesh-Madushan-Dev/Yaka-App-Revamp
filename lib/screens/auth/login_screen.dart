@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:yaka_app/screens/main/home_page.dart';
+import 'package:yaka_app/screens/main/home_page/home_page.dart';
 import '../../constants/app_colors.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';

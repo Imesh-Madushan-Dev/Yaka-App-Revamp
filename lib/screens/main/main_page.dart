@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:yaka_app/constants/app_colors.dart';
-import 'package:yaka_app/screens/main/home_page.dart';
-import 'package:yaka_app/screens/main/profile_page.dart';
-import 'package:yaka_app/screens/main/post_ad_page.dart';
-import 'package:yaka_app/screens/main/chat_page.dart';
-import 'package:yaka_app/screens/main/search_page.dart';
+import 'package:yaka_app/screens/main/home_page/home_page.dart';
+import 'package:yaka_app/screens/main/profile_page/profile_page.dart';
+import 'package:yaka_app/screens/main/post_ad_page/post_ad_page.dart';
+import 'package:yaka_app/screens/main/chat_page/chat_page.dart';
+import 'package:yaka_app/screens/main/serach_page/search_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

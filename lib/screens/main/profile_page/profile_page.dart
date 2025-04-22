@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/screens/auth/login_screen.dart';
-import 'package:yaka_app/screens/screens/MyAds.dart';
+import 'package:yaka_app/screens/main/main_page.dart';
+
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -58,7 +59,7 @@ class ProfilePage extends StatelessWidget {
               subtitle: "4 active listings",
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyAds()),
+                MaterialPageRoute(builder: (context) => MainPage()),
               ),
             ),
             _buildMenuItem(

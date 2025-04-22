@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
-import 'package:yaka_app/screens/postAd_sub_pages/location.dart';
+
+
+import 'post_ad-sub_pages/electronic_details.dart';
+import 'post_ad-sub_pages/vehicale_details.dart';
 
 class PostAdPage extends StatefulWidget {
   const PostAdPage({super.key});
@@ -85,7 +88,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LocationPage2()),
+                                builder: (context) => VehicleDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
@@ -95,7 +98,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LocationPage2()),
+                                builder: (context) => VehicleDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
@@ -105,7 +108,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LocationPage2()),
+                                builder: (context) => ElectronicsDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
@@ -115,7 +118,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LocationPage2()),
+                                builder: (context) => VehicleDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
@@ -125,7 +128,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LocationPage2()),
+                                builder: (context) => VehicleDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
@@ -135,7 +138,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LocationPage2()),
+                                builder: (context) => VehicleDetailsScreen()),
                           ),
                         ),
                       ],

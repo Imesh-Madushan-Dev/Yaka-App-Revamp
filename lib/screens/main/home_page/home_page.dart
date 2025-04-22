@@ -323,7 +323,7 @@ class HomePageState extends State<HomePage>
       padding: EdgeInsets.all(16),
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
-      childAspectRatio: 0.9,
+      childAspectRatio: 0.8,
       children: [
         _buildProductCard('CH-R', '\$620', 'assets/products/product3.jpg', 4.5),
         _buildProductCard(
