@@ -1,0 +1,2 @@
+F:/eSupport/Yaka-App-Revamp/android/app/.cxx/Debug/6f3c1bi2/armeabi-v7a/CMakeFiles/edit_cache.dir
+F:/eSupport/Yaka-App-Revamp/android/app/.cxx/Debug/6f3c1bi2/armeabi-v7a/CMakeFiles/rebuild_cache.dir
