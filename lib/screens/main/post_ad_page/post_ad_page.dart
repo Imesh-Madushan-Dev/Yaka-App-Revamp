@@ -4,6 +4,7 @@ import 'package:yaka_app/constants/app_colors.dart';
 
 import 'post_ad-sub_pages/electronic_details.dart';
 import 'post_ad-sub_pages/vehicale_details.dart';
+import 'post_ad-sub_pages/property_details.dart';
 
 class PostAdPage extends StatefulWidget {
   const PostAdPage({super.key});
@@ -98,7 +99,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VehicleDetailsScreen()),
+                                builder: (context) => PropertyDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
