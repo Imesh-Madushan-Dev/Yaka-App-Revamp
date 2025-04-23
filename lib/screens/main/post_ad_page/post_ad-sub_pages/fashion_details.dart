@@ -422,10 +422,6 @@ class _FashionDetailsScreenState extends State<FashionDetailsScreen> {
               decoration: BoxDecoration(
                 color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.primaryColor.withOpacity(0.3),
-                  width: 1.5,
-                ),
               ),
               child: Column(
                 children: [
