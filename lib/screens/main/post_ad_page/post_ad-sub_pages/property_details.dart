@@ -24,10 +24,17 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
     'landSize': TextEditingController(),
     'bedrooms': TextEditingController(),
     'bathrooms': TextEditingController(),
+    'floors': TextEditingController(),
+    'furnishing': TextEditingController(),
+    'yearBuilt': TextEditingController(),
+    'plotArea': TextEditingController(),
+    'commercialType': TextEditingController(),
+    'roomType': TextEditingController(),
   };
 
   String? _selectedPropertyType;
   String? _selectedListingType;
+  String? _selectedFurnishingStatus;
   
   final List<String> propertyTypes = [
     'House',
@@ -40,6 +47,12 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
   ];
   
   final List<String> listingTypes = ['For Sale', 'For Rent', 'To Share'];
+  
+  final List<String> furnishingOptions = [
+    'Fully Furnished',
+    'Semi Furnished',
+    'Unfurnished'
+  ];
 
   final List<File> _selectedImages = [];
   final int _maxImages = 8;
@@ -186,8 +199,264 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
             
             const SizedBox(height: 24),
             
-            // Property Specifications
+            // Property Specifications - Dynamic based on property type
             _buildSectionTitle("Property Specifications"),
+            _buildPropertySpecificFields(),
+            
+            const SizedBox(height: 32),
+            
+            // Submit Button
+            CustomButton(
+              text: "Post Ad",
+              onPressed: () {
+                // Implement ad posting logic
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Property ad posted successfully!")),
+                );
+                Navigator.pop(context);
+              },
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPropertySpecificFields() {
+    switch (_selectedPropertyType) {
+      case 'House':
+      case 'Villa':
+      case 'Bungalow':
+        return Column(
+          children: [
+            CustomTextField(
+              hintText: "Land Size (perches)",
+              controller: _controllers['landSize'],
+              prefixIcon: Icons.landscape_outlined,
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Bedrooms",
+                    controller: _controllers['bedrooms'],
+                    prefixIcon: Icons.bed_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Bathrooms",
+                    controller: _controllers['bathrooms'],
+                    prefixIcon: Icons.bathroom_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Floors",
+                    controller: _controllers['floors'],
+                    prefixIcon: Icons.layers_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Year Built",
+                    controller: _controllers['yearBuilt'],
+                    prefixIcon: Icons.calendar_today_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildDropdown(
+              value: _selectedFurnishingStatus,
+              items: furnishingOptions,
+              hint: "Furnishing Status",
+              onChanged: (value) {
+                setState(() {
+                  _selectedFurnishingStatus = value;
+                });
+              },
+            ),
+          ],
+        );
+        
+      case 'Apartment':
+        return Column(
+          children: [
+            CustomTextField(
+              hintText: "Floor Area (sq ft)",
+              controller: _controllers['landSize'],
+              prefixIcon: Icons.square_foot_outlined,
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Bedrooms",
+                    controller: _controllers['bedrooms'],
+                    prefixIcon: Icons.bed_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Bathrooms",
+                    controller: _controllers['bathrooms'],
+                    prefixIcon: Icons.bathroom_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Floor Number",
+                    controller: _controllers['floors'],
+                    prefixIcon: Icons.layers_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Year Built",
+                    controller: _controllers['yearBuilt'],
+                    prefixIcon: Icons.calendar_today_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildDropdown(
+              value: _selectedFurnishingStatus,
+              items: furnishingOptions,
+              hint: "Furnishing Status",
+              onChanged: (value) {
+                setState(() {
+                  _selectedFurnishingStatus = value;
+                });
+              },
+            ),
+          ],
+        );
+        
+      case 'Land':
+        return Column(
+          children: [
+            CustomTextField(
+              hintText: "Land Size (perches/acres)",
+              controller: _controllers['plotArea'],
+              prefixIcon: Icons.landscape_outlined,
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              hintText: "Land Type (Residential/Agricultural/Commercial)",
+              controller: _controllers['landSize'],
+              prefixIcon: Icons.category_outlined,
+            ),
+          ],
+        );
+        
+      case 'Commercial Property':
+        return Column(
+          children: [
+            CustomTextField(
+              hintText: "Commercial Type (Office/Shop/Warehouse)",
+              controller: _controllers['commercialType'],
+              prefixIcon: Icons.business_outlined,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              hintText: "Floor Area (sq ft)",
+              controller: _controllers['landSize'],
+              prefixIcon: Icons.square_foot_outlined,
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Floors",
+                    controller: _controllers['floors'],
+                    prefixIcon: Icons.layers_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: CustomTextField(
+                    hintText: "Bathrooms",
+                    controller: _controllers['bathrooms'],
+                    prefixIcon: Icons.bathroom_outlined,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+        
+      case 'Room':
+        return Column(
+          children: [
+            CustomTextField(
+              hintText: "Room Type (Single/Shared/Annexe)",
+              controller: _controllers['roomType'],
+              prefixIcon: Icons.meeting_room_outlined,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              hintText: "Room Size (sq ft)",
+              controller: _controllers['landSize'],
+              prefixIcon: Icons.square_foot_outlined,
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            _buildDropdown(
+              value: _selectedFurnishingStatus,
+              items: furnishingOptions,
+              hint: "Furnishing Status",
+              onChanged: (value) {
+                setState(() {
+                  _selectedFurnishingStatus = value;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              hintText: "Attached Bathroom (Yes/No)",
+              controller: _controllers['bathrooms'],
+              prefixIcon: Icons.bathroom_outlined,
+            ),
+          ],
+        );
+        
+      default:
+        return Column(
+          children: [
             CustomTextField(
               hintText: "Land Size (perches/acres)",
               controller: _controllers['landSize'],
@@ -215,25 +484,9 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 ),
               ],
             ),
-            
-            const SizedBox(height: 32),
-            
-            // Submit Button
-            CustomButton(
-              text: "Post Ad",
-              onPressed: () {
-                // Implement ad posting logic
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Property ad posted successfully!")),
-                );
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(height: 24),
           ],
-        ),
-      ),
-    );
+        );
+    }
   }
 
   Widget _buildSectionTitle(String title) {

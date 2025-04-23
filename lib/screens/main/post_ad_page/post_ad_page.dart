@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
-
+import 'package:yaka_app/screens/main/post_ad_page/post_ad-sub_pages/job_details.dart';
+import 'package:yaka_app/screens/main/post_ad_page/post_ad-sub_pages/services_details.dart';
 
 import 'post_ad-sub_pages/electronic_details.dart';
 import 'post_ad-sub_pages/vehicale_details.dart';
@@ -119,7 +120,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VehicleDetailsScreen()),
+                                builder: (context) => JobDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
@@ -129,7 +130,7 @@ class _PostAdPageState extends State<PostAdPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VehicleDetailsScreen()),
+                                builder: (context) => ServicesDetailsScreen()),
                           ),
                         ),
                         _buildCategoryCard(
