@@ -453,29 +453,34 @@ class HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            Expanded(
-              child: ListView(
+            Flexible(
+              child: ListView.builder(
                 padding: EdgeInsets.zero,
-                children: [
-                  _buildNotificationItem(
-                    title: "New offer available",
-                    message: "50% off on selected electronics items",
-                    time: "10 min ago",
-                    isRead: false,
-                  ),
-                  _buildNotificationItem(
-                    title: "Order confirmed",
-                    message: "Your order #1234 has been confirmed",
-                    time: "1 hour ago",
-                    isRead: false,
-                  ),
-                  _buildNotificationItem(
-                    title: "Payment successful",
-                    message: "Your payment for order #1234 was successful",
-                    time: "2 hours ago",
-                    isRead: true,
-                  ),
-                ],
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return _buildNotificationItem(
+                      title: "New offer available",
+                      message: "50% off on selected electronics items",
+                      time: "10 min ago",
+                      isRead: false,
+                    );
+                  } else if (index == 1) {
+                    return _buildNotificationItem(
+                      title: "Order confirmed",
+                      message: "Your order #1234 has been confirmed",
+                      time: "1 hour ago",
+                      isRead: false,
+                    );
+                  } else {
+                    return _buildNotificationItem(
+                      title: "Payment successful",
+                      message: "Your payment for order #1234 was successful",
+                      time: "2 hours ago",
+                      isRead: true,
+                    );
+                  }
+                },
               ),
             ),
           ],
