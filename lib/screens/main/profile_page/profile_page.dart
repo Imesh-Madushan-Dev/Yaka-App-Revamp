@@ -3,12 +3,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/screens/auth/login_screen.dart';
 import 'package:yaka_app/screens/main/main_page.dart';
+import 'package:yaka_app/screens/main/more_page/more_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/my_ads_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/phone_numbers_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/membership_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/sell_fast_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/user_profile_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/saved_searches_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/favorites_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/stay_safe_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/faq_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -59,7 +63,8 @@ class ProfilePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const UserProfilePage()),
+                  MaterialPageRoute(
+                      builder: (context) => const UserProfilePage()),
                 );
               },
             ),
@@ -70,7 +75,8 @@ class ProfilePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PhoneNumbersPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const PhoneNumbersPage()),
                 );
               },
             ),
@@ -81,7 +87,8 @@ class ProfilePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MembershipPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const MembershipPage()),
                 );
               },
             ),
@@ -103,7 +110,8 @@ class ProfilePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const FavoritesPage()),
                 );
               },
             ),
@@ -114,7 +122,8 @@ class ProfilePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SavedSearchesPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const SavedSearchesPage()),
                 );
               },
             ),
@@ -128,31 +137,57 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.person_outline,
               title: "My Profile",
               subtitle: "Personal information",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UserProfilePage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.shield_outlined,
               title: "Stay safe",
               subtitle: "Safety tips",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StaySafePage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.help_outline,
               title: "FAQ",
               subtitle: "Frequently asked questions",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FAQPage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.flash_on_outlined,
               title: "How to sell fast?",
               subtitle: "Tips for successful selling",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SellFastPage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.more_horiz,
               title: "More",
               subtitle: "Additional options",
-              onTap: () {},
+              onTap: () {
+                                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MorePage()),
+                );
+              },
             ),
           ],
         ),
@@ -277,7 +312,6 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
-
 
   void _showLogoutDialog(BuildContext context) {
     showDialog(
