@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
+import 'package:yaka_app/screens/main/serach_page/category_items_page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -155,6 +156,15 @@ class _SearchPageState extends State<SearchPage> {
     return InkWell(
       onTap: () {
         // Navigate to category search results
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryItemsPage(
+              categoryName: name,
+              categoryIcon: icon,
+            ),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
