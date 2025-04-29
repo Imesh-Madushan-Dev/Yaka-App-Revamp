@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
+import 'package:yaka_app/screens/main/product_details/product_details_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -338,74 +339,106 @@ class HomePageState extends State<HomePage>
 
   Widget _buildProductCard(
       String title, String price, String imagePath, double rating) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowColor,
-            blurRadius: 4,
-            offset: Offset(0, 2),
+    return GestureDetector(
+      onTap: () {
+        // Create product data to pass to the details screen
+        final productData = {
+          'title': title,
+          'price': price,
+          'location': 'Colombo, Sri Lanka',
+          'postedDate': '2 days ago',
+          'condition': 'Used - Like New',
+          'description': 'This is a $title in excellent condition. Great value for money.',
+          'sellerName': 'Imesh Madushan',
+          'sellerRating': 4.8,
+          'sellerJoined': 'Member since March 2022',
+          'images': [
+            imagePath, // Use the same image path from the home page
+          ],
+          'specifications': {
+            'Brand': 'Brand Name',
+            'Model': title,
+            'Condition': 'Used - Like New',
+          },
+        };
+        
+        // Navigate to the product details screen with the product data
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailsScreen(productData: productData),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                child: Image.asset(
-                  imagePath,
-                  height: 120,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.cardBackground,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadowColor,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.amber, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      rating.toString(),
-                      style: TextStyle(
-                        color: AppColors.onSurfaceColor,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 4),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: AppColors.onSurfaceColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 4),
-                Text(
-                  price,
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                  child: Image.asset(
+                    imagePath,
+                    height: 120,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.amber, size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        rating.toString(),
+                        style: TextStyle(
+                          color: AppColors.onSurfaceColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: AppColors.onSurfaceColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    price,
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
