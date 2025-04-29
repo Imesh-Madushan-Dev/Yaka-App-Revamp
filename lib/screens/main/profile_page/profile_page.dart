@@ -3,7 +3,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/screens/auth/login_screen.dart';
 import 'package:yaka_app/screens/main/main_page.dart';
-
+import 'package:yaka_app/screens/main/more_page/more_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/my_ads_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/phone_numbers_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/membership_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/sell_fast_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/user_profile_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/saved_searches_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/favorites_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/stay_safe_page.dart';
+import 'package:yaka_app/screens/main/profile_page/sub_pages/faq_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -50,41 +59,73 @@ class ProfilePage extends StatelessWidget {
             _buildMenuItem(
               icon: Icons.person,
               title: "Imesh Madushan",
-              subtitle: "view Profile",
-              onTap: () {},
+              subtitle: "View and edit profile",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UserProfilePage()),
+                );
+              },
             ),
             _buildMenuItem(
-              icon: Icons.list_alt_outlined,
-              title: "My Ads",
-              subtitle: "4 active listings",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MainPage()),
-              ),
-            ),
-            _buildMenuItem(
-              icon: Icons.card_membership_outlined,
-              title: "My membership",
-              subtitle: "Basic account",
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.favorite_border,
-              title: "Favorites",
-              subtitle: "12 saved items",
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.bookmark_border,
-              title: "Saved searches",
-              subtitle: "3 saved searches",
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.phone_outlined,
+              icon: Icons.phone_android,
               title: "Phone Numbers",
-              subtitle: "Manage your contacts",
-              onTap: () {},
+              subtitle: "Add or remove phone numbers",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PhoneNumbersPage()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.star,
+              title: "Membership",
+              subtitle: "Upgrade to Premium",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MembershipPage()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.post_add,
+              title: "My Ads",
+              subtitle: "Manage your advertisements",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyAdsPage()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.favorite,
+              title: "Favorites",
+              subtitle: "View your favorite items",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FavoritesPage()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.saved_search,
+              title: "Saved Searches",
+              subtitle: "View your saved searches",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SavedSearchesPage()),
+                );
+              },
             ),
           ],
         ),
@@ -96,31 +137,57 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.person_outline,
               title: "My Profile",
               subtitle: "Personal information",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UserProfilePage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.shield_outlined,
               title: "Stay safe",
               subtitle: "Safety tips",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StaySafePage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.help_outline,
               title: "FAQ",
               subtitle: "Frequently asked questions",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FAQPage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.flash_on_outlined,
               title: "How to sell fast?",
               subtitle: "Tips for successful selling",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SellFastPage()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.more_horiz,
               title: "More",
               subtitle: "Additional options",
-              onTap: () {},
+              onTap: () {
+                                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MorePage()),
+                );
+              },
             ),
           ],
         ),
