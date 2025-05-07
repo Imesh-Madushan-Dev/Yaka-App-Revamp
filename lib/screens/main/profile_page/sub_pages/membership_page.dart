@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class MembershipPage extends StatefulWidget {
-  const MembershipPage({Key? key}) : super(key: key);
+  const MembershipPage({super.key});
 
   @override
   State<MembershipPage> createState() => _MembershipPageState();
@@ -86,7 +86,7 @@ class _MembershipPageState extends State<MembershipPage> {
               ),
             ),
             SizedBox(height: 16),
-            ..._availablePlans.map((plan) => _buildPlanCard(plan)).toList(),
+            ..._availablePlans.map((plan) => _buildPlanCard(plan)),
             SizedBox(height: 24),
             _buildFaqSection(),
           ],

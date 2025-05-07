@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yaka_app/providers/auth_provider.dart';
 import 'package:yaka_app/screens/main/home_page/home_page.dart';
 import 'package:yaka_app/screens/main/chat_page/chat_page.dart';
 import 'constants/app_colors.dart';
@@ -10,7 +12,14 @@ import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/splash/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/': (context) => const MainPage(),
         '/splash': (context) => const SplashScreen(),
@@ -37,11 +46,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
-
         "/cart": (context) => ChatPage(),
-
         "/home": (context) => HomePage(),
-        // "/sell": (context) => PricePage(),
       },
     );
   }

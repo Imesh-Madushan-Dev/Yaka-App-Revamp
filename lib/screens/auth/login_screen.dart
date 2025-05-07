@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+import 'package:yaka_app/providers/auth_provider.dart';
 import 'package:yaka_app/screens/main/home_page/home_page.dart';
 import '../../constants/app_colors.dart';
 import '../../widgets/custom_button.dart';
@@ -15,18 +17,62 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _loginController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
+  void _handleLogin() async {
+    if (_formKey.currentState!.validate()) {
+      // Hide keyboard when login button is pressed
+      FocusScope.of(context).unfocus();
+
+      // Call the login method in the AuthProvider
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final success = await authProvider.login(
+        _loginController.text,
+        _passwordController.text,
+      );
+
+      if (success && mounted) {
+        // Show success message with green snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login successful! Welcome back.'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+
+        // Add a small delay to allow the user to see the success message
+        Future.delayed(Duration(milliseconds: 500), () {
+          if (mounted) {
+            Navigator.pushReplacementNamed(context, '/');
+          }
+        });
+      } else if (mounted) {
+        // Show the exact error message received from the database/API
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.errorMessage ?? 'Login failed'),
+            backgroundColor: Colors.red,
+            duration:
+                Duration(seconds: 3), // Longer duration to read error message
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -82,13 +128,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 32),
                   CustomTextField(
-                    hintText: 'Username or Email',
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Icons.email_outlined,
+                    hintText: 'Phone Number or Email',
+                    controller: _loginController,
+                    keyboardType: TextInputType.text,
+                    prefixIcon: Icons.person_outline,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
+                        return 'Please enter your phone number or email';
                       }
                       return null;
                     },
@@ -123,15 +169,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 32),
                   CustomButton(
-                    text: 'Login',
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
-                        );
-                      }
-                    },
+                    text: authProvider.isLoading ? 'Logging in...' : 'Login',
+                    onPressed: authProvider.isLoading ? () {} : _handleLogin,
                   ),
                   const SizedBox(height: 32),
                   Row(
@@ -167,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SocialLoginButton(
                         type: 'google',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/home');
+                          // TODO: Implement Google login
                         },
                       ),
                       const SizedBox(width: 16),

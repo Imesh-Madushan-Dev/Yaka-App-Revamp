@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class StaySafePage extends StatelessWidget {
-  const StaySafePage({Key? key}) : super(key: key);
+  const StaySafePage({super.key});
 
   @override
   Widget build(BuildContext context) {

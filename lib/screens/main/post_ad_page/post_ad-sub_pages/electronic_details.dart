@@ -63,7 +63,7 @@ class _ElectronicsDetailsScreenState extends State<ElectronicsDetailsScreen> {
   }
 
   Future<void> _pickImages() async {
-    final List<XFile>? images = await _picker.pickMultiImage(
+    final List<XFile> images = await _picker.pickMultiImage(
       imageQuality: 80,
     );
 

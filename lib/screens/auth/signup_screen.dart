@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+import 'package:yaka_app/providers/auth_provider.dart';
 import '../../constants/app_colors.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/social_login_button.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -14,20 +16,70 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _phoneNumberController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
   }
 
+  void _handleSignup() async {
+    if (_formKey.currentState!.validate()) {
+      // Hide keyboard when signup button is pressed
+      FocusScope.of(context).unfocus();
+
+      // Call the register method in the AuthProvider
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final success = await authProvider.register(
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        phoneNumber: _phoneNumberController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        passwordConfirmation: _confirmPasswordController.text,
+      );
+
+      if (success && mounted) {
+        // Show success message with green snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration successful! Welcome to YAKA.LK'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+
+        // Navigate directly to the home page
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      } else if (mounted) {
+        // Show the exact error message received from the database/API
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.errorMessage ?? 'Registration failed'),
+            backgroundColor: Colors.red,
+            duration:
+                Duration(seconds: 3), // Longer duration to read error message
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -82,19 +134,71 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
+
+                  // First Name Field
                   CustomTextField(
-                    hintText: 'Username or Email',
+                    hintText: 'First Name',
+                    controller: _firstNameController,
+                    keyboardType: TextInputType.name,
+                    prefixIcon: Icons.person_outline,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your first name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Last Name Field
+                  CustomTextField(
+                    hintText: 'Last Name',
+                    controller: _lastNameController,
+                    keyboardType: TextInputType.name,
+                    prefixIcon: Icons.person_outline,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your last name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Phone Number Field
+                  CustomTextField(
+                    hintText: 'Phone Number',
+                    controller: _phoneNumberController,
+                    keyboardType: TextInputType.phone,
+                    prefixIcon: Icons.phone_outlined,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your phone number';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Email Field
+                  CustomTextField(
+                    hintText: 'Email Address',
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: Icons.email_outlined,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
+                      } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                          .hasMatch(value)) {
+                        return 'Please enter a valid email';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
+
+                  // Password Field
                   CustomTextField(
                     hintText: 'Password',
                     controller: _passwordController,
@@ -103,11 +207,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
+
+                  // Confirm Password Field
                   CustomTextField(
                     hintText: 'Confirm Password',
                     controller: _confirmPasswordController,
@@ -144,12 +252,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 32),
                   CustomButton(
-                    text: 'Create Account',
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // TODO: Implement signup logic
-                      }
-                    },
+                    text: authProvider.isLoading
+                        ? 'Creating Account...'
+                        : 'Create Account',
+                    onPressed: authProvider.isLoading ? () {} : _handleSignup,
                   ),
                   const SizedBox(height: 32),
                   Row(

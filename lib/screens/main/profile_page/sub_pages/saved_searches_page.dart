@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class SavedSearchesPage extends StatefulWidget {
-  const SavedSearchesPage({Key? key}) : super(key: key);
+  const SavedSearchesPage({super.key});
 
   @override
   State<SavedSearchesPage> createState() => _SavedSearchesPageState();
@@ -98,8 +98,8 @@ class _SavedSearchesPageState extends State<SavedSearchesPage> {
           // Navigate to search page
         },
         backgroundColor: AppColors.primaryColor,
-        child: Icon(Icons.add, color: Colors.white),
         tooltip: 'Create new saved search',
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

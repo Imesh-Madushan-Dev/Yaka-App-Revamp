@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class FavoritesPage extends StatefulWidget {
-  const FavoritesPage({Key? key}) : super(key: key);
+  const FavoritesPage({super.key});
 
   @override
   State<FavoritesPage> createState() => _FavoritesPageState();

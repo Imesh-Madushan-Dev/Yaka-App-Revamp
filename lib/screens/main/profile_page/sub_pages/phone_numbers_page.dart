@@ -4,7 +4,7 @@ import 'package:yaka_app/widgets/custom_button.dart';
 import 'package:yaka_app/widgets/custom_text_field.dart';
 
 class PhoneNumbersPage extends StatefulWidget {
-  const PhoneNumbersPage({Key? key}) : super(key: key);
+  const PhoneNumbersPage({super.key});
 
   @override
   State<PhoneNumbersPage> createState() => _PhoneNumbersPageState();
@@ -82,8 +82,8 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
           });
         },
         backgroundColor: AppColors.primaryColor,
-        child: Icon(Icons.add, color: Colors.white),
         tooltip: 'Add new phone number',
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
@@ -136,7 +136,7 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
       padding: EdgeInsets.all(16),
       children: [
         if (_isAddingNew) _buildAddNewPhoneForm(),
-        ..._phoneNumbers.map((phone) => _buildPhoneNumberItem(phone)).toList(),
+        ..._phoneNumbers.map((phone) => _buildPhoneNumberItem(phone)),
       ],
     );
   }

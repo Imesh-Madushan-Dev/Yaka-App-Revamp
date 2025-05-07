@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class MorePage extends StatefulWidget {
-  const MorePage({Key? key}) : super(key: key);
+  const MorePage({super.key});
 
   @override
   State<MorePage> createState() => _MorePageState();

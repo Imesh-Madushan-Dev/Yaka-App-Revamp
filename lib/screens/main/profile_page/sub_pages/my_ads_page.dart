@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class MyAdsPage extends StatefulWidget {
-  const MyAdsPage({Key? key}) : super(key: key);
+  const MyAdsPage({super.key});
 
   @override
   State<MyAdsPage> createState() => _MyAdsPageState();

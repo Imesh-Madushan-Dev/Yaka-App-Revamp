@@ -64,7 +64,7 @@ class _ServicesDetailsScreenState extends State<ServicesDetailsScreen> {
   }
 
   Future<void> _pickImages() async {
-    final List<XFile>? images = await _picker.pickMultiImage();
+    final List<XFile> images = await _picker.pickMultiImage();
     if (images != null) {
       setState(() {
         for (var image in images) {

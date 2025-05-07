@@ -6,10 +6,10 @@ class CategoryItemsPage extends StatefulWidget {
   final IconData categoryIcon;
 
   const CategoryItemsPage({
-    Key? key,
+    super.key,
     required this.categoryName,
     required this.categoryIcon,
-  }) : super(key: key);
+  });
 
   @override
   _CategoryItemsPageState createState() => _CategoryItemsPageState();

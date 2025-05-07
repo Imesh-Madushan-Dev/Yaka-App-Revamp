@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class SellFastPage extends StatelessWidget {
-  const SellFastPage({Key? key}) : super(key: key);
+  const SellFastPage({super.key});
 
   @override
   Widget build(BuildContext context) {

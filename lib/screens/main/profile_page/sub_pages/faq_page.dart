@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 
 class FAQPage extends StatefulWidget {
-  const FAQPage({Key? key}) : super(key: key);
+  const FAQPage({super.key});
 
   @override
   State<FAQPage> createState() => _FAQPageState();
@@ -75,7 +75,7 @@ class _FAQPageState extends State<FAQPage> {
           children: [
             _buildIntroSection(),
             SizedBox(height: 16),
-            ..._faqItems.map((item) => _buildFAQItem(item)).toList(),
+            ..._faqItems.map((item) => _buildFAQItem(item)),
             SizedBox(height: 24),
             _buildContactSection(),
           ],

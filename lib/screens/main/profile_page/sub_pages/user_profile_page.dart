@@ -4,7 +4,7 @@ import 'package:yaka_app/widgets/custom_button.dart';
 import 'package:yaka_app/widgets/custom_text_field.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+  const UserProfilePage({super.key});
 
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/screens/auth/login_screen.dart';
-import 'package:yaka_app/screens/main/main_page.dart';
 import 'package:yaka_app/screens/main/more_page/more_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/my_ads_page.dart';
 import 'package:yaka_app/screens/main/profile_page/sub_pages/phone_numbers_page.dart';

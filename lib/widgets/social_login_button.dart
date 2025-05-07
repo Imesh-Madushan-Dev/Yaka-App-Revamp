@@ -5,10 +5,10 @@ class SocialLoginButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const SocialLoginButton({
-    Key? key,
+    super.key,
     required this.type,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   IconData _getIcon() {
     switch (type.toLowerCase()) {

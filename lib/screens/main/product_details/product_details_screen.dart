@@ -8,9 +8,9 @@ class ProductDetailsScreen extends StatefulWidget {
   final Map<String, dynamic>? productData;
   
   const ProductDetailsScreen({
-    Key? key,
+    super.key,
     this.productData,
-  }) : super(key: key);
+  });
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
