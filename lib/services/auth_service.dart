@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user_model.dart';
 
 class AuthService {
   final Dio _dio = Dio();
-  final String _baseUrl = 'http://127.0.0.1:8000/api';
+  final String _baseUrl = 'https://yakalk.esupportsystem.shop/api';
 
   // Register a new user
   Future<Map<String, dynamic>> register({
@@ -79,11 +78,24 @@ class AuthService {
       );
 
       if (response.statusCode == 200) {
-        // If the server returns a token, save it
-        if (response.data['token'] != null) {
-          await _saveToken(response.data['token']);
+        // Check if the status is success based on auth.md format
+        if (response.data['status'] == 'success') {
+          // Save the token and set authentication status
+          if (response.data['token'] != null) {
+            await _saveToken(response.data['token']);
+            await _saveAuthStatus(true);
+          }
+          return {
+            'success': true,
+            'data': response.data,
+            'message': response.data['message'] ?? 'Login successful'
+          };
+        } else {
+          return {
+            'success': false,
+            'message': response.data['message'] ?? 'Authentication failed'
+          };
         }
-        return {'success': true, 'data': response.data};
       } else {
         return {
           'success': false,

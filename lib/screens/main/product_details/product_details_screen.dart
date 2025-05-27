@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:yaka_app/constants/app_colors.dart';
 import 'package:yaka_app/widgets/custom_button.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final Map<String, dynamic>? productData;

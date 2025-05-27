@@ -59,6 +59,7 @@ class HomePageState extends State<HomePage>
           SliverAppBar(
             floating: true,
             snap: true,
+            automaticallyImplyLeading: false,
             elevation: _showElevation ? 4 : 0,
             backgroundColor: AppColors.primaryColor,
             title: Row(
@@ -348,7 +349,8 @@ class HomePageState extends State<HomePage>
           'location': 'Colombo, Sri Lanka',
           'postedDate': '2 days ago',
           'condition': 'Used - Like New',
-          'description': 'This is a $title in excellent condition. Great value for money.',
+          'description':
+              'This is a $title in excellent condition. Great value for money.',
           'sellerName': 'Imesh Madushan',
           'sellerRating': 4.8,
           'sellerJoined': 'Member since March 2022',
@@ -361,12 +363,13 @@ class HomePageState extends State<HomePage>
             'Condition': 'Used - Like New',
           },
         };
-        
+
         // Navigate to the product details screen with the product data
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(productData: productData),
+            builder: (context) =>
+                ProductDetailsScreen(productData: productData),
           ),
         );
       },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String hintText;
   final bool isPassword;
   final TextEditingController? controller;
@@ -20,14 +20,27 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool _obscureText = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      obscureText: isPassword,
-      keyboardType: keyboardType,
-      validator: validator,
+      controller: widget.controller,
+      obscureText: widget.isPassword ? _obscureText : false,
+      keyboardType: widget.keyboardType,
+      validator: widget.validator,
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: widget.hintText,
         hintStyle: TextStyle(color: AppColors.secondaryTextColor),
         filled: true,
         fillColor: Colors.grey[100],
@@ -35,16 +48,23 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
-        prefixIcon: prefixIcon != null
-            ? Icon(prefixIcon, color: AppColors.secondaryTextColor)
-            : (isPassword
+        prefixIcon: widget.prefixIcon != null
+            ? Icon(widget.prefixIcon, color: AppColors.secondaryTextColor)
+            : (widget.isPassword
                 ? const Icon(Icons.lock_outline)
                 : const Icon(Icons.person_outline)),
-        suffixIcon: isPassword
+        suffixIcon: widget.isPassword
             ? IconButton(
-                icon: const Icon(Icons.visibility_outlined),
+                icon: Icon(
+                  _obscureText
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                  color: AppColors.secondaryTextColor,
+                ),
                 onPressed: () {
-                  // TODO: Implement password visibility toggle
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
                 },
               )
             : null,

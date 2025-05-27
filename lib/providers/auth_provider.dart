@@ -73,7 +73,7 @@ class AuthProvider extends ChangeNotifier {
           return false;
         }
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['message'] ?? 'Login failed';
         _isLoading = false;
         notifyListeners();
         return false;
